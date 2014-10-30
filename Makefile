@@ -32,6 +32,12 @@ pi.o: pi.c
 pi-sched.o: pi-sched.c
 	$(CC) $(CFLAGS) $<
 
+pi-sched-test.o: pi-sched-test.c
+	$(CC) $(CFLAGS) $<
+
+pi-sched-test: pi-sched-test.o
+	$(CC) $(LFLAGS) $^ -o $@ -lm
+
 rw.o: rw.c
 	$(CC) $(CFLAGS) $<
 
