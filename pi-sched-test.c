@@ -4,6 +4,8 @@
 #include <math.h>
 #include <errno.h>
 #include <sched.h>
+#include <unistd.h>
+#include <sys/wait.h>
 
 #define DEFAULT_ITERATIONS 1000000
 #define RADIUS (RAND_MAX / 2)
@@ -19,9 +21,11 @@ inline double zeroDist(double x, double y){
 int main(int argc, char* argv[]){
     int pid;
 
-    int forks = atoi(argv[arc-1]);
+    int forks = *argv[argc-1];
+    printf("%i\n", forks);
     int pid_megatron[forks];
-    for(int i; i < forks; i++){
+    int i;
+    for(i = 0; i < forks; i++){
         pid = fork();
         if(pid == 0){
             break;
@@ -32,6 +36,8 @@ int main(int argc, char* argv[]){
     }
 
     if (pid == 0){
+
+        printf("Hello from pid 0");
 
         long i;
         long iterations;
@@ -111,16 +117,13 @@ int main(int argc, char* argv[]){
         //int i = 0;
         for(i = 0; i < forks ; i++)
         {
-            pid = pids[i];
-            do{
+            int Sauron = 0;
+            pid = pid_megatron[i];
+            while(pid==0 || Sauron == 0){
+                Sauron++;
                 pid = waitpid(pid, &status, WNOHANG);
-                if (WIFEXITED(status))
-                {
-                    //printf("child exited with status of %d\n", WEXITSTATUS(status));
-                }
-            } while(pid == 0);
+            } //while(pid == 0);
         }
-    }
     }
     return 0;
 }
