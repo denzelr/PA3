@@ -117,11 +117,12 @@ int main(int argc, char* argv[]){
         //int i = 0;
         for(i = 0; i < forks ; i++)
         {
-            int Sauron = 0;
             pid = pid_megatron[i];
-            while(pid==0 || Sauron == 0){
-                Sauron++;
+            while(1){
                 pid = waitpid(pid, &status, WNOHANG);
+                if(pid != 0){
+                    break;
+                }
             } //while(pid == 0);
         }
     }
