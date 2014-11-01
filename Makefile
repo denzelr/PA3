@@ -24,7 +24,7 @@ rw: rw.o rwinput
 	$(CC) $(LFLAGS) rw.o -o $@ -lm
 
 rw_test: rw_test.o rwinput
-	$(CC) $(LFLAGS) rw.o -o $@ -lm
+	$(CC) $(LFLAGS) rw_test.o -o $@ -lm
 
 #rr_quantum: rr_quantum.o
 #	$(CC) $(LFLAGS) $^ -o $@ -lm

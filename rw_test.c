@@ -34,11 +34,10 @@
 #define DEFAULT_ITERATIONS 1000000
 
 int main(int argc, char* argv[]){
-
 	int pid;
 
     int forks = *argv[argc-1];
-    printf("%i\n", forks);
+    printf("forks: %i\n", forks);
     int pid_megatron[forks];
     int i;
     for(i = 0; i < forks; i++){
@@ -75,41 +74,40 @@ int main(int argc, char* argv[]){
 	    int totalWrites = 0;
 	    int inputFileResets = 0;
 
-	    long iterations;
         struct sched_param param;
         int policy;
 
-	    if(argc < 4){
+	   /*if(argc < 4){
     	   iterations = DEFAULT_ITERATIONS;
-        }
+        }*/
         /* Set default policy if not supplied */
-        if(argc < 5){
+        /*if(argc < 5){
     	   policy = SCHED_OTHER;
-        }
+        }*/
         /* Set iterations if supplied */
-        if(argc > 3){
-    	   iterations = atol(argv[1]);
-    	   if(iterations < 1){
-    	       fprintf(stderr, "Bad iterations value\n");
-    	       exit(EXIT_FAILURE);
-    	   }
-        }
+        //if(type(argv[-1]) == int){
+    	
+    	  
+       // }
         /* Set policy if supplied */
-        if(argc > 4){
-    	   if(!strcmp(argv[2], "SCHED_OTHER")){
+        //if(argv[argc-2] == "SCHED_OTHER" || argv[argc-2] == "SCHED_FIFO" || argv[argc-2] == "SCHED_RR"){
+    	   if(!strcmp(argv[argc-2], "SCHED_OTHER")){
     	       policy = SCHED_OTHER;
     	   }
-    	   else if(!strcmp(argv[2], "SCHED_FIFO")){
+    	   else if(!strcmp(argv[argc-2], "SCHED_FIFO")){
     	       policy = SCHED_FIFO;
     	   }
-    	   else if(!strcmp(argv[2], "SCHED_RR")){
+    	   else if(!strcmp(argv[argc-2], "SCHED_RR")){
     	       policy = SCHED_RR;
     	   }
-    	   else{
+    	   /*else{
     	       fprintf(stderr, "Unhandeled scheduling policy\n");
     	       exit(EXIT_FAILURE);
-    	   }
-        }
+    	   }*/
+        /*}
+        else {
+        	policy = SCHED_OTHER;
+        }*/
         
         /* Set process to max prioty for given scheduler */
         param.sched_priority = sched_get_priority_max(policy);
@@ -288,7 +286,7 @@ int main(int argc, char* argv[]){
 	    return EXIT_SUCCESS;
 	}
 
-else{
+	else{
         int status;
         //int i = 0;
         for(i = 0; i < forks ; i++)
