@@ -47,7 +47,7 @@ int main(int argc, char* argv[]){
 	int pid;
 
 
-    int forks = *argv[argc-1];
+    int forks = atol(argv[argc-1]);
     printf("forks: %i\n", forks);
     int pid_megatron[forks];
     int i;
