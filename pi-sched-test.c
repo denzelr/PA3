@@ -56,7 +56,7 @@ int main(int argc, char* argv[]){
         }
         /* Set default policy if not supplied */
         if(argc < 3){
-    	   policy = SCHED_FIFO;
+    	   policy = SCHED_OTHER;
         }
         /* Set iterations if supplied */
         if(argc > 1){
