@@ -47,10 +47,45 @@ int main(int argc, char* argv[]){
 	int pid;
 
 
-    int forks = atol(argv[argc-1]);
+    int forks = atol(argv[argc-2]);
     printf("forks: %i\n", forks);
     int pid_megatron[forks];
     int i;
+
+    struct sched_param param;
+    int policy;
+
+    if(argc > 2){
+       if(!strcmp(argv[argc-3], "SCHED_OTHER")){
+           policy = SCHED_OTHER;
+		}
+    	else if(!strcmp(argv[argc-3], "SCHED_FIFO")){
+ 	       policy = SCHED_FIFO;
+		}
+       else if(!strcmp(argv[argc-3], "SCHED_RR")){
+   	       policy = SCHED_RR;
+   	   }
+   	   else{
+   	       fprintf(stderr, "Unhandeled scheduling policy\n");
+   	        exit(EXIT_FAILURE);
+    	   }
+        }
+        else {
+        	policy = SCHED_OTHER;
+        }
+        
+        /* Set process to max prioty for given scheduler */
+        param.sched_priority = sched_get_priority_max(policy);
+        
+        /* Set new scheduler policy */
+        fprintf(stdout, "Current Scheduling Policy: %d\n", sched_getscheduler(0));
+        fprintf(stdout, "Setting Scheduling Policy to: %d\n", policy);
+        if(sched_setscheduler(0, policy, &param)){
+    	   perror("Error setting scheduler policy");
+    	   exit(EXIT_FAILURE);
+        }
+        fprintf(stdout, "New Scheduling Policy: %d\n", sched_getscheduler(0));
+
     for(i = 0; i < forks; i++){
         pid = fork();
         if(pid == 0){
@@ -63,7 +98,7 @@ int main(int argc, char* argv[]){
 
     if (pid == 0){
 
-        printf("Hello from pid 0");
+        //printf("Hello from pid 0");
 
 	    int rv;
 	    int inputFD;
@@ -84,13 +119,13 @@ int main(int argc, char* argv[]){
 	    ssize_t totalBytesWritten = 0;
 	    int totalWrites = 0;
 	    int inputFileResets = 0;
+	    int iterations = atol(argv[argc - 1]);
 
-        struct sched_param param;
-        int policy;
+        
 
-	   /*if(argc < 4){
-    	   iterations = DEFAULT_ITERATIONS;
-        }*/
+	   //if(argc < 4){
+    	 //  iterations = DEFAULT_ITERATIONS;
+        //}
         /* Set default policy if not supplied */
         /*if(argc < 5){
     	   policy = SCHED_OTHER;
@@ -101,36 +136,7 @@ int main(int argc, char* argv[]){
     	  
        // }
         /* Set policy if supplied */
-        //if(argv[argc-2] == "SCHED_OTHER" || argv[argc-2] == "SCHED_FIFO" || argv[argc-2] == "SCHED_RR"){
-    	   if(!strcmp(argv[argc-2], "SCHED_OTHER")){
-    	       policy = SCHED_OTHER;
-    	   }
-    	   else if(!strcmp(argv[argc-2], "SCHED_FIFO")){
-    	       policy = SCHED_FIFO;
-    	   }
-    	   else if(!strcmp(argv[argc-2], "SCHED_RR")){
-    	       policy = SCHED_RR;
-    	   }
-    	   /*else{
-    	       fprintf(stderr, "Unhandeled scheduling policy\n");
-    	       exit(EXIT_FAILURE);
-    	   }*/
-        /*}
-        else {
-        	policy = SCHED_OTHER;
-        }*/
         
-        /* Set process to max prioty for given scheduler */
-        param.sched_priority = sched_get_priority_max(policy);
-        
-        /* Set new scheduler policy */
-        fprintf(stdout, "Current Scheduling Policy: %d\n", sched_getscheduler(0));
-        fprintf(stdout, "Setting Scheduling Policy to: %d\n", policy);
-        if(sched_setscheduler(0, policy, &param)){
-    	   perror("Error setting scheduler policy");
-    	   exit(EXIT_FAILURE);
-        }
-        fprintf(stdout, "New Scheduling Policy: %d\n", sched_getscheduler(0));
 	    
 	    /* Process program arguments to select run-time parameters */
 	    /* Set supplied transfer size or default if not supplied */
@@ -301,7 +307,7 @@ int main(int argc, char* argv[]){
     	double piCalc = 0.0;
 
 
-	    for(i=0; i<forks; i++){
+	    for(i=0; i<iterations; i++){
 		x = (random() % (RADIUS * 2)) - RADIUS;
 		y = (random() % (RADIUS * 2)) - RADIUS;
 		if(zeroDist(x,y) < RADIUS){
