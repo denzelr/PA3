@@ -29,9 +29,9 @@ for i in range(0, 3):
 				subprocess.call("rm rw_pi" + sched + forks + ".txt", shell = True)
 				command = "{ time ./pi-sched-test " + "1000 " + sched + " " + forks + " " + "; } 2>> pi" + sched + forks + ".txt"
 			elif(k == 1):
-				command = "{ time ./rw_test " + "1024 " + "1024 " + "/dev/urandom " + "/dev/null " + sched + " " + forks + " " + "; } 2>> rw" + sched + forks + ".txt"
+				command = "{ time ./rw_test " + "1024 " + "512 " + "rwinput " + "rwoutput " + sched + " " + forks + " " + "; } 2>> rw" + sched + forks + ".txt"
 			else:
-				command = "{ time ./rwpi_test " + "1024 " + "1024 " + "/dev/urandom " + "/dev/null " + sched + " " + forks + " " + "1000 " +  "; } 2>> rw_pi" + sched + forks + ".txt"
+				command = "{ time ./rwpi_test " + "1024 " + "512 " + "rwinput " + "rwoutput " + sched + " " + forks + " " + "1000 " +  "; } 2>> rw_pi" + sched + forks + ".txt"
 			
 			for l in range(0, 3):
 				subprocess.call(command, shell = True)
