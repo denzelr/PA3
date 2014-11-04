@@ -33,5 +33,5 @@ for i in range(0, 3):
 			else:
 				command = "{ time ./rwpi_test " + "1024 " + "1024 " + "/dev/urandom " + "/dev/null " + sched + " " + forks + " " + "1000 " +  "; } 2>> rw_pi" + sched + forks + ".txt"
 			
-			for i in range(0, 3):
+			for l in range(0, 3):
 				subprocess.call(command, shell = True)
