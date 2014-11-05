@@ -17,9 +17,12 @@ handout - Assignment description and documentation
 ./testscript - A simple bash script for running a few sample test cases
 ./pi - A simple program for statistically calculating pi
 ./pi-sched - A simple program for statistically calculating pi using
-             a specific scheduling policy
+             a specific scheduling policy.
 ./rw - A simple i/o bound example program.
 ./rr_quantum - A simple program for determing the RR quantum.
+./pi-sched-test - same a calulates pi with selected scheduler and forks off paralell processes
+./rw_test - A simple i/o bound program with a selected shceduler and forks off paralell processes
+./rwpi_test - a combonation of pi-sched-test and rw_test
 
 ---Examples---
 Build:
@@ -43,6 +46,16 @@ rw:
  ./rw <#Bytes to Write to Output File> <Block Size>
  ./rw <#Bytes to Write to Output File> <Block Size> <Input Filename>
  ./rw <#Bytes to Write to Output File> <Block Size> <Input Filename> <Output Filename>
+
+pi-sched-test:
+	./pi-sched-test <iterations> <schedule> <forks>
+
+
+rw_test:
+	./rw_test <#Bytes to Write to Output File> <Block Size> <Input Filename> <Output Filename> <schedule> <forks>
+
+rwpi_test:
+	./rwpi_test <#Bytes to Write to Output File> <Block Size> <Input Filename> <Output Filename> <schedule> <forks> <iterations>
 
 testscript:
  ./testscript
