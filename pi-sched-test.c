@@ -136,7 +136,7 @@ if(argc < 3){
                 if(pid != 0){
                     break;
                 }
-            } //while(pid == 0);
+            }
         }
     }
     //printf("%s\n", argv[2]);

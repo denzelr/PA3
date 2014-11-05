@@ -337,7 +337,7 @@ int main(int argc, char* argv[]){
                 if(pid != 0){
                     break;
                 }
-            } //while(pid == 0);
+            } 
         }
     }
     return 0;
